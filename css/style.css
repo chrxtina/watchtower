@@ -1,0 +1,27 @@
+body {
+  margin: 0;
+  font-family: system-ui, Arial;
+}
+
+#container {
+  position: relative;
+  display: inline-block;
+}
+
+video {
+  display: none;
+}
+
+canvas { 
+  display: block; 
+}
+
+#alert {
+  position: absolute;
+  top: 8px; left: 8px;
+  background: rgba(255,0,0,0.9);
+  color: white; padding: 6px 10px;
+  border-radius: 6px;
+  font-weight: 700;
+  display:none;
+}
