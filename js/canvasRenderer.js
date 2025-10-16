@@ -23,7 +23,11 @@ export class CanvasRenderer {
     predictions.forEach(p => {
       const [x, y, w, h] = p.bbox;
       this.ctx.strokeRect(x, y, w, h);
-      this.ctx.fillText(`${p.class} (${Math.round(p.score*100)}%)`, x, y > 16 ? y-4 : y+14);
+      this.ctx.fillText(
+        `${p.class} (${Math.round(p.score * 100)}%)`,
+        x,
+        y > 16 ? y - 4 : y + 14
+      );
     });
   }
 
@@ -37,6 +41,14 @@ export class CanvasRenderer {
     this.ctx.closePath();
     this.ctx.fill();
     this.ctx.stroke();
+
+    // Control points
+    this.ctx.fillStyle = 'red';
+    zone.forEach(([x, y]) => {
+      this.ctx.beginPath();
+      this.ctx.arc(x, y, 5, 0, Math.PI * 2);
+      this.ctx.fill();
+    });
     this.ctx.restore();
   }
 }

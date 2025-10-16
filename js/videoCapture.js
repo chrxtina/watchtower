@@ -1,18 +1,30 @@
 export class VideoCapture {
   constructor(videoEl, width = 640, height = 480) {
-    this.video = videoEl;
+    this.videoEl = videoEl;
     this.width = width;
     this.height = height;
+    this.stream = null;
   }
 
   async init() {
-    const stream = await navigator.mediaDevices.getUserMedia({ video: { width: this.width, height: this.height }});
-    this.video.srcObject = stream;
-    await new Promise(r => this.video.onloadedmetadata = r);
-    this.video.play();
+    this.stream = await navigator.mediaDevices.getUserMedia({
+      video: { width: this.width, height: this.height },
+    });
+    this.videoEl.srcObject = this.stream;
+    this.videoEl.srcObject = this.stream;
+    await this.videoEl.play();
   }
 
   getVideo() {
-    return this.video;
+    return this.videoEl;
+  }
+
+  stop() {
+    if (this.stream) {
+      this.stream.getTracks().forEach(track => track.stop());
+      this.videoEl.pause();
+      this.videoEl.srcObject = null;
+      this.stream = null;
+    }
   }
 }
