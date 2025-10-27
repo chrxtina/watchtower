@@ -17,6 +17,16 @@
   <div id="container">
     <video id="video" width="640" height="480" autoplay muted playsinline></video>
     <canvas id="overlay" width="640" height="480"></canvas>
+    <div class="info-wrapper">
+      <div class="info-button">ℹ️</div>
+      <div class="tooltip">
+        <strong>Metrics</strong><br>
+        FPS: Frames per second (UI redraw rate)<br>
+        Latency: Model detection time per frame (ms)<br>
+        Memory: JS heap usage (MB)
+      </div>
+    </div>
+
     <div id="alert">Intrusion Detected!</div>
   </div>
   <script type="module" src="js/main.js"></script>
