@@ -142,12 +142,30 @@ async function loop() {
   if (performance.memory)
     ctx.fillText(`Memory: ${memUsed.toFixed(1)} / ${memTotal.toFixed(1)} MB`, 10, 60);
 
-  // Intrusion detection
-  const intrusion = predictions.some(p =>
-    p.class === 'person' &&
-    p.bbox[0] + p.bbox[2]/2 > 420 &&
-    p.bbox[0] + p.bbox[2]/2 < 630
-  );
+// Calculate the min/max X and Y coordinates of the dynamic zone
+  const x_coords = zone.map(p => p[0]);
+  const y_coords = zone.map(p => p[1]);
+  const minX = Math.min(...x_coords);
+  const maxX = Math.max(...x_coords);
+  const minY = Math.min(...y_coords);
+  const maxY = Math.max(...y_coords);
+
+  // Intrusion detection using the dynamic coordinates
+  const intrusion = predictions.some(p => {
+    if (p.class !== 'person') return false;
+
+    // Calculate the center point of the person's bounding box
+    const centerX = p.bbox[0] + p.bbox[2] / 2;
+    const centerY = p.bbox[1] + p.bbox[3] / 2;
+
+    // Check if the center point is within the dynamic zone's bounds
+    return (
+      centerX > minX &&
+      centerX < maxX &&
+      centerY > minY &&
+      centerY < maxY
+    );
+  });
 
   if (intrusion) alerts.show('Intrusion detected!');
 
